@@ -1,5 +1,7 @@
 Manifest-Version: 1.0
-Built-By: Alex
-Build-Jdk: 15.0.2
+Build-Jdk-Spec: 15
+Implementation-Title: final-capstone-starter
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor: Pivotal Software, Inc.
 Created-By: Maven Integration for Eclipse
 
