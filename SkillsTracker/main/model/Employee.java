@@ -8,14 +8,14 @@ public class Employee {
 	private String id;
 	private String firstName;
 	private String lastName;
-	private List<String> address;
+	private Address address;
 	private String contactEmail;
 	private String companyEmail;
 	private LocalDate birthDate;
 	private LocalDate hiredDate;
 	private String role;
 	private String businessUnit;
-	private List<String> skills;
+	private List<Skill> skills;
 	private String assignedTo;
 	
 	
@@ -43,14 +43,15 @@ public class Employee {
 		this.lastName = lastName;
 	}
 	
-	public List<String> getAddress() {
+	
+	public Address getAddress() {
 		return address;
 	}
-	
-	public void setAddress(List<String> address) {
+
+	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
+
 	public String getContactEmail() {
 		return contactEmail;
 	}
@@ -99,14 +100,6 @@ public class Employee {
 		this.businessUnit = businessUnit;
 	}
 	
-	public List<String> getSkills() {
-		return skills;
-	}
-	
-	public void setSkills(List<String> skills) {
-		this.skills = skills;
-	}
-	
 	public String getAssignedTo() {
 		return assignedTo;
 	}
@@ -114,10 +107,19 @@ public class Employee {
 	public void setAssignedTo(String assignedTo) {
 		this.assignedTo = assignedTo;
 	}
-	
-	public Employee(String id, String firstName, String lastName, List<String> address, String contactEmail,
+
+	public List<Skill> getSkills() {
+		return skills;
+	}
+
+	public void setSkills(List<Skill> skills) {
+		this.skills = skills;
+	}
+
+	public Employee(String id, String firstName, String lastName, Address address, String contactEmail,
 			String companyEmail, LocalDate birthDate, LocalDate hiredDate, String role, String businessUnit,
-			List<String> skills, String assignedTo) {
+			List<Skill> skills, String assignedTo) {
+		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -131,6 +133,12 @@ public class Employee {
 		this.skills = skills;
 		this.assignedTo = assignedTo;
 	}
+
+	public Employee() {
+		
+	}
+	
+	
 	
 	
 	

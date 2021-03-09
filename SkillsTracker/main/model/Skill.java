@@ -38,6 +38,9 @@ public class Skill {
 		this.experience = experience;
 		this.summary = summary;
 	}
+	public Skill() {
+		
+	}
 	
 	
 	
