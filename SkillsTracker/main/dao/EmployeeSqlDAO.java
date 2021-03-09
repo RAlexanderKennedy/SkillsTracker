@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import model.Address;
 import model.Employee;
+import model.Field;
+import model.Skill;
 
 @Component
 public class EmployeeSqlDAO implements EmployeeDAO {
@@ -26,54 +28,57 @@ public class EmployeeSqlDAO implements EmployeeDAO {
 	
 	public List<Employee> getEmployees() {
 		List<Employee> employees = new ArrayList<Employee>();
-		String sql = "Select * from employee join address on employee.id = address.id";
+		String sql = "Select * from employee join address on employee.id = address.id left outer join skill on employee.id = skill.id";
 		SqlRowSet rs = template.queryForRowSet(sql);
 		
 		while (rs.next()) {
 			Employee employee = new Employee();
+			Address address = new Address();
+			Skill skill = new Skill();
+			Field field = new Field();
 			
-			employee.getAddress().setStreet(rs.getString("street"));
+			address.setStreet(rs.getString("street"));
+			address.setSuite(rs.getString("suite"));;
+			address.setCity(rs.getString("city"));
+			address.setRegion(rs.getString("region"));
+			address.setPostal(rs.getString("postal"));
+			address.setCountry(rs.getString("country"));
+			address.setId(rs.getString(1));
 			
-			if(rs.getString("suite") != null) {
-			employee.getAddress().setSuite(rs.getString("suite"));;
+			skill.setExperience(rs.getInt("experience"));
+			skill.setSkillId(rs.getString("skill_id"));
+			skill.setSummary(rs.getString("summary"));
+			
+			field.setName(rs.getString("field"));
+			field.setSkillFieldId(rs.getString("skill_field_id"));
+			field.setType(rs.getString("field_type"));
+			
+			skill.setField(field);
+			
+			if(skill.getSkillId()!=null) {
+			employee.addSkill(skill);
 			}
 			
-			employee.getAddress().setCity(rs.getString("city"));
-			employee.getAddress().setRegion(rs.getString("region"));
-			employee.getAddress().setPostal(rs.getString("postal"));
-			employee.getAddress().setCountry(rs.getString("country"));
-			
-			if(rs.getString("assignedto") != null) {
-			employee.setAssignedTo(rs.getString("assignedTo"));
-			}
-			
+			employee.setAddress(address);
+			employee.setAssignedTo(rs.getString("assignedto"));
 			employee.setFirstName(rs.getString("firstname"));
 			employee.setLastName(rs.getString("lastname"));
-			
-			if(rs.getString("contactemail") != null) {
-				employee.setContactEmail(rs.getString("contactemail"));
-			}
-			
-			if(rs.getString("companyemail") != null) {
-				employee.setCompanyEmail(rs.getString("companyemail"));
-			}
+			employee.setContactEmail(rs.getString("contactemail"));
+			employee.setCompanyEmail(rs.getString("companyemail"));
+			employee.setId(rs.getString(1));
+			employee.setBirthDate(null);
 			
 			if(rs.getDate("birthdate") != null) {
 				employee.setBirthDate(rs.getDate("birthdate").toLocalDate());
 			}
 			
+			employee.setHiredDate(null);
 			if(rs.getDate("hireddate") != null) {
 				employee.setHiredDate(rs.getDate("hireddate").toLocalDate());
 			}
 			
-			if(rs.getString("role") != null) {
-				employee.setRole(rs.getString("role"));
-			}
-			
-			if(rs.getString("businessunit") !=null) {
-				employee.setBusinessUnit(rs.getString("businessunit"));
-			}
-			
+			employee.setRole(rs.getString("role"));
+			employee.setBusinessUnit(rs.getString("businessunit"));
 			employees.add(employee);
 		}
 		return employees;
@@ -109,54 +114,58 @@ public class EmployeeSqlDAO implements EmployeeDAO {
 
 	public Employee getEmployeeById(String id) {
 		
-		String sql = "Select * from employee join address on employee.id = address.id where employee.id = ?";
+		String sql = "Select * from employee join address on employee.id = address.id left outer join skill on employee.id = skill.id where employee.id = ?";
 		SqlRowSet rs = template.queryForRowSet(sql, id);
 		
 		while (rs.next()) {
+			
 			Employee employee = new Employee();
+			Address address = new Address();
+			Skill skill = new Skill();
+			Field field = new Field();
 			
-			employee.getAddress().setStreet(rs.getString("street"));
+			address.setStreet(rs.getString("street"));
+			address.setSuite(rs.getString("suite"));;
+			address.setCity(rs.getString("city"));
+			address.setRegion(rs.getString("region"));
+			address.setPostal(rs.getString("postal"));
+			address.setCountry(rs.getString("country"));
+			address.setId(rs.getString(1));
 			
-			if(rs.getString("suite") != null) {
-			employee.getAddress().setSuite(rs.getString("suite"));;
+			skill.setExperience(rs.getInt("experience"));
+			skill.setSkillId(rs.getString("skill_id"));
+			skill.setSummary(rs.getString("summary"));
+			
+			field.setName(rs.getString("field"));
+			field.setSkillFieldId(rs.getString("skill_field_id"));
+			field.setType(rs.getString("field_type"));
+			
+			skill.setField(field);
+			
+			if(skill.getSkillId()!=null) {
+			employee.addSkill(skill);
 			}
 			
-			employee.getAddress().setCity(rs.getString("city"));
-			employee.getAddress().setRegion(rs.getString("region"));
-			employee.getAddress().setPostal(rs.getString("postal"));
-			employee.getAddress().setCountry(rs.getString("country"));
-			
-			if(rs.getString("assignedto") != null) {
-			employee.setAssignedTo(rs.getString("assignedTo"));
-			}
-			
+			employee.setAddress(address);
+			employee.setAssignedTo(rs.getString("assignedto"));
 			employee.setFirstName(rs.getString("firstname"));
 			employee.setLastName(rs.getString("lastname"));
-			
-			if(rs.getString("contactemail") != null) {
-				employee.setContactEmail(rs.getString("contactemail"));
-			}
-			
-			if(rs.getString("companyemail") != null) {
-				employee.setCompanyEmail(rs.getString("companyemail"));
-			}
+			employee.setContactEmail(rs.getString("contactemail"));
+			employee.setCompanyEmail(rs.getString("companyemail"));
+			employee.setId(rs.getString(1));
+			employee.setBirthDate(null);
 			
 			if(rs.getDate("birthdate") != null) {
 				employee.setBirthDate(rs.getDate("birthdate").toLocalDate());
 			}
 			
+			employee.setHiredDate(null);
 			if(rs.getDate("hireddate") != null) {
 				employee.setHiredDate(rs.getDate("hireddate").toLocalDate());
 			}
 			
-			if(rs.getString("role") != null) {
-				employee.setRole(rs.getString("role"));
-			}
-			
-			if(rs.getString("businessunit") !=null) {
-				employee.setBusinessUnit(rs.getString("businessunit"));
-			}
-			
+			employee.setRole(rs.getString("role"));
+			employee.setBusinessUnit(rs.getString("businessunit"));
 			return employee;
 		}
 		

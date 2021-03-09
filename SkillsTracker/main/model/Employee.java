@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Employee {
@@ -138,6 +139,16 @@ public class Employee {
 		
 	}
 	
+	public void addSkill(Skill skill) {
+		
+		if(this.skills== null) {
+			this.skills = new ArrayList<Skill>(1);
+			skills.add(skill);
+		}
+		else {
+		skills.add(skill);
+		}
+	}
 	
 	
 	

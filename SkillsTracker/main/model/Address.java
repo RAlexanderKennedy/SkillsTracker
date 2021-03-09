@@ -75,6 +75,10 @@ public class Address {
 		this.postal = postal;
 		this.country = country;
 	}
+
+	public Address() {
+		
+	}
 	
 	
 }
