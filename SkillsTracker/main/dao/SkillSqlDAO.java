@@ -7,10 +7,12 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import model.Field;
 import model.Skill;
 
+@Component
 public class SkillSqlDAO implements SkillDAO {
 	
 	private JdbcTemplate template;
@@ -29,9 +31,11 @@ public class SkillSqlDAO implements SkillDAO {
 		
 		while (rs.next()) {
 			Skill skill = new Skill();
-			skill.getField().setName(rs.getString("field"));
-			skill.getField().setSkillFieldId(rs.getString("skill_field_id"));
-			skill.getField().setType(rs.getString("field_type"));
+			Field field = new Field();
+			field.setName(rs.getString("field"));
+			field.setSkillFieldId(rs.getString("skill_field_id"));
+			field.setType(rs.getString("field_type"));
+			skill.setField(field);
 			skill.setSkillId(rs.getString("skill_id"));
 			skill.setExperience(rs.getInt("experience"));
 			
@@ -58,6 +62,7 @@ public class SkillSqlDAO implements SkillDAO {
 		String sql = "insert into skill (id, skill_id, skill_field_id, field, field_type, experience, summary) values (?,?,?,?,?,?,?)";
 		
 		template.update(sql, employeeId, skillId, skillFieldId, fieldName, fieldType, experience, summary);
+		
 
 	}
 
@@ -68,15 +73,18 @@ public class SkillSqlDAO implements SkillDAO {
 		
 		while (rs.next()) {
 			Skill skill = new Skill();
-			skill.getField().setName(rs.getString("field"));
-			skill.getField().setSkillFieldId(rs.getString("skill_field_id"));
-			skill.getField().setType(rs.getString("field_type"));
+			Field field = new Field();
+			field.setName(rs.getString("field"));
+			field.setSkillFieldId(rs.getString("skill_field_id"));
+			field.setType(rs.getString("field_type"));
+			skill.setField(field);
 			skill.setSkillId(rs.getString("skill_id"));
 			skill.setExperience(rs.getInt("experience"));
 			
 			if(rs.getString("summary") != null) {
 				skill.setSummary(rs.getString("summary"));
 			}
+
 			
 			return skill;
 		}
@@ -95,7 +103,7 @@ public class SkillSqlDAO implements SkillDAO {
 		int experience = updatedSkill.getExperience();
 		String summary = updatedSkill.getSummary();
 		
-		template.update(sql, skillId, skillFieldId, fieldName, fieldType, experience, summary, employeeId, skillId);
+		template.update(sql, skillFieldId, fieldName, fieldType, experience, summary, employeeId, skillId);
 
 	}
 
