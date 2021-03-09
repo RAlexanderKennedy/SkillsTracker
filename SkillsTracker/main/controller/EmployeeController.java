@@ -39,6 +39,15 @@ public class EmployeeController {
 		return employee;
 	};
 	
+	@RequestMapping(path="/employees/{updatedEmployee.getId()}", method=RequestMethod.PUT)
+	public void updateEmployee(@Valid @RequestBody Employee updatedEmployee) {
+		employeeDAO.updateEmployee(updatedEmployee);
+	};
+	
+	@RequestMapping(path="/employees/{id}", method=RequestMethod.DELETE)
+	public void deleteEmployee(@PathVariable String id) {
+		employeeDAO.deleteEmployee(id);
+	};
 	
 	
 }
