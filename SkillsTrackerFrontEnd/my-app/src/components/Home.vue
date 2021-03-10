@@ -2,8 +2,11 @@
   <div>
       <h3>List Of Employees</h3>
       <router-link v-bind:to="{name : 'add'}">Add New Employee?</router-link>
-
-    <div class='employeeCard' v-for='employee in employeesList' v-bind:key='employee.id'>
+    <div>
+      <input class="search" type="text" placeholder="Search By ID" v-model="filter.id">
+      <input class="search" type="text" placeholder="Search By Last Name" v-model="filter.lastName">
+    </div>
+    <div class='employeeCard' v-for='employee in filteredList' v-bind:key='employee.id'>
       Employee ID: {{employee.id}}
       <br>
       Name: {{employee.firstName}} {{employee.lastName}}
@@ -24,7 +27,11 @@ import employeeService from '../services/APIService.js';
 export default {
   data() {
     return {
-      employeesList : []
+      employeesList : [],
+      filter: {
+        id: "",
+        lastName: ""
+      }
     }
   }, 
   created() {
@@ -34,7 +41,23 @@ export default {
       }
 
     );
-  }
+  },
+  computed: {
+    filteredList() {
+      let filteredEmployees = this.employeesList;
+      if (this.filter.id != '') {
+        filteredEmployees = filteredEmployees.filter((employee) =>
+        employee.id.toLowerCase()
+        .includes(this.filter.id.toLowerCase()));
+      }
+      if(this.filter.lastName != '') {
+        filteredEmployees = filteredEmployees.filter((employee) =>
+        employee.lastName.toLowerCase()
+        .includes(this.filter.lastName.toLowerCase()));
+      }
+      return filteredEmployees;
+    },
+}
 }
 </script>
 
