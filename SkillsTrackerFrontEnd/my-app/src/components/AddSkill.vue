@@ -33,6 +33,9 @@ export default {
           this.$router.push({name: 'home'});
         }
 
+      ).catch(
+      
+        window.alert("Invalid submission for new skill. Please check information and try again.")
       );
     }
   }

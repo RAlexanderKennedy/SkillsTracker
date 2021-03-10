@@ -45,6 +45,8 @@ export default {
            this.$router.push({name : 'home'});
          }
 
+       ).catch(
+         window.alert("Sorry, there was an error updating the skill. Please confirm the information entered is correct and try again.")
        )
     },
     deleteSkill() {
@@ -56,6 +58,8 @@ export default {
           this.$router.push({name: 'home'});
         }
 
+      ).catch(
+        window.alert("Sorry, there was an error deleting the requested skill.")
       );
     }
   }

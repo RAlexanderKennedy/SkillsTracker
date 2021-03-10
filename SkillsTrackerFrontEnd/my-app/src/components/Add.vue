@@ -43,7 +43,10 @@ export default {
           this.$router.push({name: 'home'});
         }
 
-      );
+      ).catch(
+      
+        window.alert("Invalid submission for new user. Please check information and try again.")
+      )
     }
   }
 }
