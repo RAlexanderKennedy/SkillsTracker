@@ -28,14 +28,13 @@ public class EmployeeSqlDAO implements EmployeeDAO {
 	
 	public List<Employee> getEmployees() {
 		List<Employee> employees = new ArrayList<Employee>();
-		String sql = "Select * from employee left outer join address on employee.id = address.id left outer join skill on employee.id = skill.id";
+		String sql = "Select * from employee left outer join address on employee.id = address.id";
 		SqlRowSet rs = template.queryForRowSet(sql);
+		String skillSql = "Select * from skill where id = ?";
 		
 		while (rs.next()) {
 			Employee employee = new Employee();
 			Address address = new Address();
-			Skill skill = new Skill();
-			Field field = new Field();
 			
 			address.setStreet(rs.getString("street"));
 			address.setSuite(rs.getString("suite"));;
@@ -45,19 +44,6 @@ public class EmployeeSqlDAO implements EmployeeDAO {
 			address.setCountry(rs.getString("country"));
 			address.setId(rs.getString(1));
 			
-			skill.setExperience(rs.getInt("experience"));
-			skill.setSkillId(rs.getString("skill_id"));
-			skill.setSummary(rs.getString("summary"));
-			
-			field.setName(rs.getString("field"));
-			field.setSkillFieldId(rs.getString("skill_field_id"));
-			field.setType(rs.getString("field_type"));
-			
-			skill.setField(field);
-			
-			if(skill.getSkillId()!=null) {
-			employee.addSkill(skill);
-			}
 			
 			employee.setAddress(address);
 			employee.setAssignedTo(rs.getString("assignedto"));
@@ -79,6 +65,28 @@ public class EmployeeSqlDAO implements EmployeeDAO {
 			
 			employee.setRole(rs.getString("role"));
 			employee.setBusinessUnit(rs.getString("businessunit"));
+			
+			SqlRowSet skillRs = template.queryForRowSet(skillSql, employee.getId());
+			
+			while(skillRs.next()) {
+				Skill skill = new Skill();
+				Field field = new Field();
+			
+				skill.setExperience(skillRs.getInt("experience"));
+				skill.setSkillId(skillRs.getString("skill_id"));
+				skill.setSummary(skillRs.getString("summary"));
+			
+				field.setName(skillRs.getString("field"));
+				field.setSkillFieldId(skillRs.getString("skill_field_id"));
+				field.setType(skillRs.getString("field_type"));
+			
+				skill.setField(field);
+			
+				if(skill.getSkillId()!=null) {
+					employee.addSkill(skill);
+				}
+			}
+			
 			employees.add(employee);
 		}
 		return employees;

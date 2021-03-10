@@ -45,7 +45,7 @@ public class SkillController {
 	};
 	
 	@RequestMapping(path="/employees/{employeeId}/skills/{skillId}", method=RequestMethod.DELETE)
-	public void deleteEmployeeSkill(@PathVariable String skillId, String employeeId) {
+	public void deleteEmployeeSkill(@PathVariable String skillId, @PathVariable String employeeId) {
 		skillDAO.deleteEmployeeSkill(skillId, employeeId);
 	}
 	
